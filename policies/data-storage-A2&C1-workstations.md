@@ -33,7 +33,7 @@ Existing data will remain available for reference while it is migrated and revie
 Storage NAS2 is mounted at:
 
 ```text
-/mnt/storagenas2
+/storagenas2
 ```
 
 All new data that must be retained must be saved within the approved NAS2 structure described below.
@@ -54,12 +54,12 @@ On July 22, 2026, workstation `10.224.41.15` became unresponsive because the roo
 
 ## 3. Approved NAS2 directory structure
 
-Do not create additional top-level directories under `/mnt/storagenas2`.
+Do not create additional top-level directories under `/storagenas2`.
 
 Use only the following managed structure:
 
 ```text
-/mnt/storagenas2/
+/storagenas2/
 ├── 00_ADMIN/
 ├── 10_PROJECTS/
 ├── 20_DATASETS/
@@ -82,8 +82,8 @@ Use only the following managed structure:
 Restricted directories:
 
 ```text
-/mnt/storagenas2/dataapis-backups
-/mnt/storagenas2/dataapis-live
+/storagenas2/dataapis-backups
+/storagenas2/dataapis-live
 ```
 
 ---
@@ -102,7 +102,7 @@ Use temporary scratch storage when the data can be regenerated:
 Use NAS2 when the data must be retained:
 
 ```text
-/mnt/storagenas2
+/storagenas2
 ```
 
 ### Step 2: Choose the correct NAS2 category
@@ -110,7 +110,7 @@ Use NAS2 when the data must be retained:
 #### Active project data
 
 ```text
-/mnt/storagenas2/10_PROJECTS/<project-name>/
+/storagenas2/10_PROJECTS/<project-name>/
 ```
 
 Use this for active project inputs, project-specific outputs, curated files, retained results, and project documentation.
@@ -118,7 +118,7 @@ Use this for active project inputs, project-specific outputs, curated files, ret
 #### Canonical shared datasets
 
 ```text
-/mnt/storagenas2/20_DATASETS/<dataset-name>/
+/storagenas2/20_DATASETS/<dataset-name>/
 ```
 
 Use this for authoritative datasets, shared reference data, official processed datasets, and validated canonical data products.
@@ -126,7 +126,7 @@ Use this for authoritative datasets, shared reference data, official processed d
 #### Individual long-term data
 
 ```text
-/mnt/storagenas2/30_USERS/<username>/
+/storagenas2/30_USERS/<username>/
 ```
 
 Use this only for retained data that belongs primarily to one user and is not yet assigned to a formal project or shared dataset.
@@ -134,7 +134,7 @@ Use this only for retained data that belongs primarily to one user and is not ye
 #### Shared team data
 
 ```text
-/mnt/storagenas2/40_SHARED/users-open/<team-or-project>/<dataset-or-run>/
+/storagenas2/40_SHARED/users-open/<team-or-project>/<dataset-or-run>/
 ```
 
 Use this for team working areas, laboratory shared data, collaborative outputs, and files that multiple users must access.
@@ -142,7 +142,7 @@ Use this for team working areas, laboratory shared data, collaborative outputs, 
 #### Completed or retired data
 
 ```text
-/mnt/storagenas2/50_ARCHIVE/<project-or-dataset>/
+/storagenas2/50_ARCHIVE/<project-or-dataset>/
 ```
 
 Use this for completed projects, retired datasets, former-user data, frozen deliverables, and historical snapshots.
@@ -150,7 +150,7 @@ Use this for completed projects, retired datasets, former-user data, frozen deli
 #### Migrated legacy data
 
 ```text
-/mnt/storagenas2/90_LEGACY/storagenas1/raw/
+/storagenas2/90_LEGACY/storagenas1/raw/
 ```
 
 The original NAS1 directory structure will be preserved during migration. Do not reorganize, rename, or delete legacy data until ownership, purpose, retention, and final placement have been confirmed.
@@ -201,9 +201,9 @@ YYYY-MM-DD
 Do not create:
 
 ```text
-/mnt/storagenas2/my-project
-/mnt/storagenas2/temporary
-/mnt/storagenas2/user-data
+/storagenas2/my-project
+/storagenas2/temporary
+/storagenas2/user-data
 ```
 
 Place the directory inside the correct managed area.
@@ -213,7 +213,7 @@ Place the directory inside the correct managed area.
 ## 6. Recommended project structure
 
 ```text
-/mnt/storagenas2/10_PROJECTS/<project-name>/
+/storagenas2/10_PROJECTS/<project-name>/
 ├── README.md
 ├── metadata/
 ├── raw/
@@ -240,7 +240,7 @@ Place the directory inside the correct managed area.
 ## 7. Recommended dataset structure
 
 ```text
-/mnt/storagenas2/20_DATASETS/<dataset-name>/
+/storagenas2/20_DATASETS/<dataset-name>/
 ├── README.md
 ├── metadata/
 ├── versions/
@@ -291,7 +291,7 @@ Confirm that:
 ```bash
 rsync -aH --info=progress2 \
   /fastscratch/<username>/<job-id>/ \
-  /mnt/storagenas2/10_PROJECTS/<project-name>/staging/<job-id>.partial/
+  /storagenas2/10_PROJECTS/<project-name>/staging/<job-id>.partial/
 ```
 
 ### Step 4: Verify the copy
@@ -299,15 +299,15 @@ rsync -aH --info=progress2 \
 ```bash
 rsync -aH --dry-run --itemize-changes \
   /fastscratch/<username>/<job-id>/ \
-  /mnt/storagenas2/10_PROJECTS/<project-name>/staging/<job-id>.partial/
+  /storagenas2/10_PROJECTS/<project-name>/staging/<job-id>.partial/
 ```
 
 ### Step 5: Rename the completed directory
 
 ```bash
 mv \
-  /mnt/storagenas2/10_PROJECTS/<project-name>/staging/<job-id>.partial \
-  /mnt/storagenas2/10_PROJECTS/<project-name>/processed/<job-id>
+  /storagenas2/10_PROJECTS/<project-name>/staging/<job-id>.partial \
+  /storagenas2/10_PROJECTS/<project-name>/processed/<job-id>
 ```
 
 ### Step 6: Remove scratch data only after verification
@@ -321,28 +321,28 @@ Do not delete scratch data until the NAS2 copy has been confirmed.
 ### Step 1: Confirm that NAS2 is mounted
 
 ```bash
-df -h /mnt/storagenas2
+df -h /storagenas2
 ```
 
 or:
 
 ```bash
-findmnt /mnt/storagenas2
+findmnt /storagenas2
 ```
 
 ### Step 2: List the managed directories
 
 ```bash
-ls -lah /mnt/storagenas2
+ls -lah /storagenas2
 ```
 
 ### Step 3: Navigate to the correct area
 
 ```bash
-cd /mnt/storagenas2/10_PROJECTS
-cd /mnt/storagenas2/20_DATASETS
-cd /mnt/storagenas2/30_USERS/$USER
-cd /mnt/storagenas2/40_SHARED/users-open
+cd /storagenas2/10_PROJECTS
+cd /storagenas2/20_DATASETS
+cd /storagenas2/30_USERS/$USER
+cd /storagenas2/40_SHARED/users-open
 ```
 
 ### Step 4: Do not write to restricted directories
@@ -350,9 +350,9 @@ cd /mnt/storagenas2/40_SHARED/users-open
 Do not use:
 
 ```text
-/mnt/storagenas2/dataapis-backups
-/mnt/storagenas2/dataapis-live
-/mnt/storagenas2/00_ADMIN
+/storagenas2/dataapis-backups
+/storagenas2/dataapis-live
+/storagenas2/00_ADMIN
 ```
 
 unless explicitly authorized.
