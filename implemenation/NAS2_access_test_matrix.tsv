@@ -1,0 +1,17 @@
+protocol	test_identity	path_or_classification	list	read	create	overwrite	rename	delete	create_subdirectory	expected_result	actual_result	tested_utc	tested_by	notes
+NFS-A2	storage-admin	/storagenas2	yes	yes	no	no	no	no	no	no_unapproved_top_level_create				Run the documented ordinary-user root write probe; admins should provision through the script.
+NFS-C1	ordinary-local-account	/storagenas2	permitted	permitted	no	no	no	no	no	deny_top_level_create				This account may or may not be in nas2users; root creation must still be denied.
+NFS-A2	project-member	OPEN-READ project	yes	yes	yes	yes	yes	yes	yes	read_write				Requires matching project GID and umask 0002 for collaborative writes.
+NFS-C1	local-nonmember	OPEN-READ project	yes	yes	no	no	no	no	no	read_only				POSIX mode 2775 grants read/traverse through Unix other bits to every local account on trusted NFS clients.
+NFS-A2	project-member	RESTRICTED project	yes	yes	yes	yes	yes	yes	yes	read_write				Requires matching project GID.
+NFS-C1	local-nonmember	RESTRICTED project	no	no	no	no	no	no	no	deny				Mode 2770; use for confidential or embargoed data.
+SMB	project-member	OPEN-READ project	yes	yes	yes	yes	yes	yes	yes	read_write				DSM project-group Modify ACL.
+SMB	nas2user-nonmember	OPEN-READ project	yes	yes	no	no	no	no	no	read_only				DSM nas2users Read ACL.
+SMB	external-project-member	RESTRICTED project	yes	yes	yes	yes	yes	yes	yes	read_write				DSM local account; no workstation account required.
+SMB	nas2user-nonmember	RESTRICTED project	no	no	no	no	no	no	no	deny				No baseline nas2users ACL; avoid a broad explicit Deny that can override project Allow.
+SMB	private-owner	PRIVATE user area	yes	yes	yes	yes	yes	yes	yes	read_write				Named DSM user Modify ACL.
+SMB	other-nas2user	PRIVATE user area	no	no	no	no	no	no	no	deny				No nas2users grant.
+NFS-A2	ordinary-local-account	/storagenas2/dataapis-live	no	no	no	no	no	no	no	deny				Top-level mode 2750; verify actual service/admin identities separately.
+SMB	ordinary-nas2user	/storagenas2/dataapis-backups	no	no	no	no	no	no	no	deny				No nas2users DSM ACL.
+SMB	storage-admin	00_ADMIN	yes	yes	yes	yes	yes	yes	yes	full_control				Identity, audit, operation, and migration records are administrator-only.
+SMB	ordinary-nas2user	00_ADMIN/policies	yes	yes	no	no	no	no	no	read_only_policies				Do not grant access to 00_ADMIN identity/log subdirectories.

@@ -1,0 +1,4 @@
+username	dsm_uid	a2_uid	c1_uid	access_type	status	verified_utc	verified_by	notes
+ptr226				NFS+SMB	active			Record numeric IDs; do not assume matching names imply matching NFS identity.
+SMB_ONLY_EXAMPLE		N/A	N/A	SMB-only	active			DSM local account; use project/shared DSM ACLs, not workstation owner-only semantics.
+NFS_ONLY_EXAMPLE	N/A			NFS-only	active			A2 and C1 UIDs must match when the same account uses both clients.

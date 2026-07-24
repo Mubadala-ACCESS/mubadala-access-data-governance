@@ -1,0 +1,101 @@
+NAS2 v2.1.1 Validation Report
+============================
+Generated UTC: 2026-07-24T05:30:13Z
+Script: /mnt/data/migrate_storagenas1_to_storagenas2_unified_v2.sh
+Version: migrate_storagenas1_to_storagenas2_unified_v2.sh v2.1.1
+SHA-256: 6058a2facb35dc41e1106b91d02f73734ffd6fc54cfc5a4a87faee63fa5a578a
+Line count: 1721
+Byte count: 71590
+Bash: GNU bash, version 5.2.37(1)-release (x86_64-pc-linux-gnu)
+Rsync: rsync  version 3.4.1  protocol version 32
+
+Scope and limits
+----------------
+The tests ran in an isolated temporary filesystem with synthetic local users,
+groups, GIDs, projects, DataAPIs directories, and migration data. They exercised
+the production script itself. The script has NOT been executed against the live
+Synology HD6500, the production NFS exports, DSM Windows ACLs, or production
+DataAPIs processes. Live rollout must follow the attached runbook, begin with a
+snapshot/ACL export, and validate every permission through both NFS and SMB.
+
+ShellCheck was not available in the execution environment, so no ShellCheck
+claim is made. Bash syntax validation, targeted static safety scans, and the
+integration suite below were run instead.
+
+Static validation
+-----------------
+PASS: bash -n syntax validation
+PASS: version and help interface
+PASS: no stale /mnt/storagenas path
+PASS: no recursive chmod -R or chown -R
+PASS: no eval
+PASS: no groupadd -f
+PASS: no default migration operation; no arguments display help only
+PASS: real copy path contains no --delete; --delete is confined to dry-run verification
+PASS: rsync --files-from copy explicitly includes --recursive
+PASS: rm -rf is confined to the uniquely named capability-probe directory
+PASS: executable mode 0755
+
+Integration validation
+----------------------
+PASS: bash -n
+PASS: version
+PASS: help
+PASS: no-argument safety
+PASS: preflight is non-persistent
+PASS: world-writable NAS2 root fails safely
+PASS: initial setup and conservative DataAPIs protection
+PASS: idempotent setup and explicit permission repair
+PASS: explicit non-recursive DataAPIs adoption
+PASS: normal and private user provisioning
+PASS: open/restricted projects, member administration, and registry updates
+PASS: existing project README preserved during explicit repair
+PASS: duplicate core group names fails safely
+PASS: duplicate core GIDs fails safely
+PASS: project group conflicts with core group fails safely
+PASS: configured admin removal from nas2users fails safely
+PASS: configured admin removal from project group fails safely
+PASS: core/project identity separation and administrator-removal guards
+PASS: recursive dry run, recycle inclusion, and migration log location
+PASS: skip-recycle
+PASS: real migration, hardlinks, symlink, sparse file, newline filename, checksums
+PASS: verify-only checksum success
+PASS: verification detects corruption fails safely
+PASS: rerun repairs changed destination and verifies
+PASS: audit success
+PASS: GID mismatch fails safely
+PASS: audited DSM-ACL root override
+PASS: migration blocks insecure root fails safely
+PASS: POSIX ACL capability request fails safely
+PASS: no recursive chmod/chown and no eval
+
+ALL TESTS PASSED
+
+What was validated
+------------------
+- Exact core/project GID creation, collision detection, and drift rejection.
+- Administrator membership safeguards and registry updates.
+- Idempotent setup and explicit, non-recursive permission repair.
+- Conservative DataAPIs protection and explicit top-level-only adoption.
+- Normal/private user and open/restricted project provisioning.
+- Preservation of an existing project README during repair.
+- Root 0777 stop condition and the documented DSM-ACL override path.
+- Recursive rsync dry run and real copy, including #recycle by default.
+- --skip-recycle behavior.
+- Hard links, symbolic links, sparse files, filenames containing spaces/newlines,
+  source/destination SHA-256 manifests, and corruption detection.
+- Incomplete migration protection and verified publication behavior.
+- Audit behavior and failure on unsupported requested POSIX ACL preservation.
+
+Production acceptance gates still required
+------------------------------------------
+1. Confirm the exact DSM version and current HD6500 health.
+2. Snapshot NAS2 and export/record current DSM ACLs.
+3. Create DSM local groups first and record DSM-assigned numeric GIDs.
+4. Verify UID/GID mappings on A2 and C1.
+5. Prove an ordinary user cannot create objects at /storagenas2.
+6. Verify the actual DataAPIs service identity before any adoption command.
+7. Remount/freeze NAS1 read-only for the real migration.
+8. Run preflight, setup, audit, dry run, real run, and verify in that order.
+9. Execute the attached NFS/SMB access test matrix with real test identities.
+10. Do not delete NAS1 source data until operational acceptance is signed off.

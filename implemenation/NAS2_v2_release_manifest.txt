@@ -1,0 +1,12 @@
+NAS2 v2.1.1 Release Manifest
+===========================
+Generated UTC: 2026-07-24T05:30:21Z
+The manifest intentionally does not hash itself.
+
+sha256	bytes	lines	mode	file
+6058a2facb35dc41e1106b91d02f73734ffd6fc54cfc5a4a87faee63fa5a578a	71590	1721	755	migrate_storagenas1_to_storagenas2_unified_v2.sh
+3abd7ca05af094125be1b7ea81f62c72ed5f4b5ba76c10e0c247963e6dccc999	26168	905	644	NAS2_no_LDAP_SMB_NFS_runbook.md
+f4e39ecc870cec38a9decd3aed78436eec060f838634b2a5c60b597183f979ec	4758	101	644	NAS2_v2_test_report.txt
+a9cea5dfbcd12e813703899be61b986f48feb1a1c76ea64d9f413c5ce0f784ee	319	5	644	NAS2_identity_GID_registry_template.tsv
+b5e7d67fe1e48cf2c6f49a8ff91c01834752d1214091b000dc98d2df4a7ee132	424	4	644	NAS2_identity_UID_registry_template.tsv
+907007679aa2b66e4530d4e0469b5ba99e29c6950ab17bb543d9a0ab8236aca2	2361	17	644	NAS2_access_test_matrix.tsv

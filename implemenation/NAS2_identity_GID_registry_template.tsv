@@ -1,0 +1,5 @@
+group_name	dsm_gid	a2_gid	c1_gid	purpose	dsm_members_or_owner	verified_utc	verified_by	status_or_notes
+storage-admin				NAS2 administration	ptr226			
+nas2users				Approved NAS population				
+dataapis				DataAPIs service/operators	ajd11_or_verified_service_account			
+nas2-prj-example				Example project write group				
